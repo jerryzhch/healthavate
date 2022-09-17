@@ -137,6 +137,15 @@ const HomePage = () => {
     };
 
     const setNewAppState = (newAppState) => {
+
+        if (newAppState == 3) {
+            if (currentFloorLevel < elevatorDestination) {
+                f7.$("#indicator-up").removeClass("indicator-off");
+            } else {
+                f7.$("#indicator-down").removeClass("indicator-off");
+            }
+        }
+
         localStorage.setItem('appState', newAppState);
         setAppState(newAppState);
     };
@@ -179,9 +188,11 @@ const HomePage = () => {
 
             <FabBackdrop slot="fixed"/>
             {/* Page content */}
-            <Block style={{margin: '0', height: '20%'}} className="display-flex" strong>
-                {/*<img src={'../assets/images/speak-bubble.svg'} alt="speak-bubble-border" />*/}
-                <p className="speak-bubble">{f7.store.state.bubbleTexts.find((el) => el.id == appState).description}</p>
+            <Block style={{margin: '0', height: '20%'}} strong>
+                <div className={"speak-bubble"}>{/* className="display-flex"  */}
+                    <h3 className="speak-bubble-title">{f7.store.state.bubbleTexts.find((el) => el.id == appState).title}</h3>
+                    <p className="speak-bubble-text">{f7.store.state.bubbleTexts.find((el) => el.id == appState).description}</p>
+                </div>
                 <img className="the-dude" src={'images/thedude.svg'} alt="TheDude"/>
             </Block>
             <Block className="display-flex justify-content-center align-items-center"
@@ -203,14 +214,14 @@ const HomePage = () => {
                     disabled={appState != AppState.ChooseDestination}
                     value={currentFloorLevel}
                     scale={true}
-                    onRangeChanged={(val) => (appState != AppState.FeelingLucky)?elevatorFloorSelected(val):""}
+                    onRangeChanged={(val) => (appState != AppState.FeelingLucky) ? elevatorFloorSelected(val) : ""}
                     scaleSteps={11}
                     scaleSubSteps={1}
                 />
             </Block>
             <Block style={{margin: '0', height: '15%'}} strong>
                 {appState == AppState.GuessDoor && (
-                    <Segmented strong tag="p">
+                    <Segmented strong tag="p" className={"segmented-buttons"}>
                         <Button large active={ElevatorMatrix.ElevatorA === activeButton}
                                 onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorA)}>
                             A
@@ -231,12 +242,14 @@ const HomePage = () => {
                 )}
                 {appState > AppState.FeelingLucky && (
                     <Swiper effect="coverflow" direction="vertical" style={{height: '100%'}}>
-                        <SwiperSlide>Your Destination: {elevatorDestination}</SwiperSlide>
+                        <SwiperSlide className={"end-swiper"}>Your Destination: {elevatorDestination}</SwiperSlide>
                     </Swiper>
                 )}
             </Block>
 
+
             {appState == AppState.FeelingLucky && (
+
                 <Fab position="center-bottom" slot="fixed" text="Choose Action">
                     <Icon f7="bolt_fill"></Icon>
                     <Icon f7="bolt_horizontal_fill"></Icon>
@@ -246,22 +259,7 @@ const HomePage = () => {
                     </FabButtons>
                 </Fab>
             )}
-            {/*
-    <List>
-      <ListItem
-        title="Dynamic (Component) Route"
-        link="/dynamic-route/blog/45/post/125/?foo=bar#about"
-      />
-      <ListItem
-        title="Default Route (404)"
-        link="/load-something-that-doesnt-exist/"
-      />
-      <ListItem
-        title="Request Data & Load"
-        link="/request-and-load/user/123456/"
-      />
-    </List>
-*/}
+
         </Page>
     );
 };
