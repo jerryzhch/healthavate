@@ -21,6 +21,8 @@ const Elevator = () => {
       leftDoor.classList.add("door-left-close");
       rightDoor.classList.add("door-right-close");
       setOpen(false);
+      leftDoor.classList.add("door-left-stay-closed");
+      rightDoor.classList.add("door-right-stay-closed");
     }else{
       leftDoor.classList.add("door-left-open");
       rightDoor.classList.add("door-right-open");
