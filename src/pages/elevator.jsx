@@ -31,10 +31,16 @@ const Elevator = (props) => {
         rightDoor.addClass('door-right-close')
         break
       case AppState.WalkStairs:
+        leftDoor.addClass('door-left-open')
+        rightDoor.addClass('door-right-open')
+        leftDoor.addClass('door-left-stay-open')
+        rightDoor.addClass('door-right-stay-open')
         break
       case AppState.ArrivedAtDestination:
         leftDoor.addClass('door-left-open')
         rightDoor.addClass('door-right-open')
+        leftDoor.addClass('door-left-stay-open')
+        rightDoor.addClass('door-right-stay-open')
         break
 
       default:

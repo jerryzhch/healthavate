@@ -33,7 +33,7 @@ const HomePage = () => {
   const [activeButton, setActiveButton] = useState(ElevatorMatrix.ElevatorA)
   const [appState, setAppState] = useState(localStorage.getItem('appState') || AppState.ChooseDestination)
   const [currentFloorLevel, setCurrentFloorLevel] = useState(0)
-  const [elevatorDestination, setElevatorDestination] = useState('')
+  const [elevatorDestination, setElevatorDestination] = useState(0)
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -99,7 +99,7 @@ const HomePage = () => {
           bold: true,
           color: 'green',
           onClick: () => {
-            if (appState == AppState.ChooseDestination) setElevatorDestination(`Floor ${val}`)
+            if (appState == AppState.ChooseDestination) setElevatorDestination(val)
             setNewAppState(nextState)
           },
         },
@@ -119,6 +119,33 @@ const HomePage = () => {
 
   const feelingLucky = () => {
     f7.fab.close()
+    const MIN_FLOOR = -1
+    const MAX_FLOOR = 10
+    let lowEnd = 0
+    let highEnd = 0
+    if (currentFloorLevel < elevatorDestination) {
+      lowEnd = currentFloorLevel
+      highEnd = elevatorDestination
+    } else {
+      highEnd = currentFloorLevel
+      lowEnd = elevatorDestination
+    }
+    let list = []
+    for (let i = lowEnd; i <= highEnd; i++) {
+      if (lowEnd == i && i > MIN_FLOOR) {
+        list.push(i - 1)
+        continue
+      }
+      if (i == highEnd && i < MAX_FLOOR) {
+        list.push(i + 1)
+        continue
+      }
+      list.push(i)
+    }
+    const randomnFloor = list[Math.floor(Math.random() * list.length)]
+    setElevatorDestination(randomnFloor)
+    f7.range.get('.elevator-level-slider').setValue(randomnFloor)
+
     setNewAppState(AppState.RandomiseDestination)
   }
 
@@ -218,9 +245,9 @@ const HomePage = () => {
         )}
         {appState > AppState.FeelingLucky && (
           <Swiper effect="coverflow" direction="vertical" style={{ height: '100%' }}>
-            <SwiperSlide>Your Destination: {elevatorDestination}</SwiperSlide>
+            <SwiperSlide>Your Destination: Floor {elevatorDestination}</SwiperSlide>
           </Swiper>
-        )}  
+        )}
       </Block>
 
       {appState == AppState.FeelingLucky && (
@@ -251,5 +278,10 @@ const HomePage = () => {
 */}
     </Page>
   )
+}
+function getRandomInt(min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min) + min)
 }
 export default HomePage
