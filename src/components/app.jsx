@@ -51,7 +51,7 @@ const MyApp = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
   const [username, loadingUsername, errorUsername] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/username`))
-  const [schats, loadingSchtats, errorSchtats] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/username`))
+  const [schats, loadingSchtats, errorSchtats] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/schtats`))
   // Login screen demo data
   const device = getDevice()
   // Framework7 Parameters
