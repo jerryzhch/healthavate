@@ -1,5 +1,25 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
-import { Page, Navbar, NavLeft, NavTitle, NavRight, Link, Block, Button, Range, Segmented, Swiper, SwiperSlide, f7, App } from 'framework7-react'
+import {
+  Page,
+  Navbar,
+  NavLeft,
+  NavTitle,
+  NavRight,
+  Link,
+  Block,
+  Button,
+  Range,
+  Segmented,
+  Swiper,
+  SwiperSlide,
+  f7,
+  App,
+  Icon,
+  Fab,
+  FabButton,
+  FabButtons,
+  FabBackdrop,
+} from 'framework7-react'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 import { ElevatorMatrix } from '../js/elevatorMatrix'
 import { AppState } from '../js/appState'
@@ -13,12 +33,13 @@ const HomePage = () => {
   const [activeButton, setActiveButton] = useState(ElevatorMatrix.ElevatorA)
   const [appState, setAppState] = useState(localStorage.getItem('appState') || AppState.ChooseDestination)
   const [currentFloorLevel, setCurrentFloorLevel] = useState(0)
+  const [elevatorDestination, setElevatorDestination] = useState('')
 
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastMessage))
     }
-  }, [lastMessage, setMessageHistory])
+  }, [lastMessage])
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
@@ -59,7 +80,7 @@ const HomePage = () => {
   }
 
   const activateElevatorButton = (selectedElevator) => {
-    openActionsPopover("Confirm Schelevator selection: ", selectedElevator, AppState.FeelingLucky)
+    openActionsPopover('Confirm Schelevator selection: ', selectedElevator, AppState.FeelingLucky)
     setActiveButton(selectedElevator)
   }
 
@@ -76,6 +97,7 @@ const HomePage = () => {
           bold: true,
           color: 'green',
           onClick: () => {
+            if (appState == AppState.ChooseDestination) setElevatorDestination(`Floor ${val}`)
             setNewAppState(nextState)
           },
         },
@@ -93,6 +115,16 @@ const HomePage = () => {
     actionsToPopover.open()
   }
 
+  const feelingLucky = () => {
+    f7.fab.close()
+    setNewAppState(AppState.RandomiseDestination)
+  }
+
+  const normalOperation = () => {
+    f7.fab.close()
+    setNewAppState(AppState.GoToDestination)
+  }
+
   return (
     <Page name="home" className="homePage">
       {/* Top Navbar */}
@@ -105,6 +137,8 @@ const HomePage = () => {
           <Link iconIos="f7:menu" iconAurora="f7:menu" iconMd="material:menu" panelOpen="right" />
         </NavRight>
       </Navbar>
+
+      <FabBackdrop slot="fixed" />
       {/* Page content */}
       <Block style={{ margin: '0', height: '20%' }} className="display-flex" strong>
         {/*<img src={'../assets/images/speak-bubble.svg'} alt="speak-bubble-border" />*/}
@@ -134,7 +168,7 @@ const HomePage = () => {
           scaleSubSteps={1}
         />
       </Block>
-      <Block style={{ margin: '0', height: '20%' }} strong>
+      <Block style={{ margin: '0', height: '15%' }} strong>
         {appState == AppState.GuessDoor && (
           <Segmented strong tag="p">
             <Button large active={ElevatorMatrix.ElevatorA === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorA)}>
@@ -151,11 +185,11 @@ const HomePage = () => {
             </Button>
           </Segmented>
         )}
-        <Swiper effect="coverflow" direction="vertical" style={{ height: '100%', display: appState === AppState.FeelingLucky ? 'block' : 'none' }} speed={500} pagination>
-          <SwiperSlide>Slide 1</SwiperSlide>
-          <SwiperSlide>Slide 2</SwiperSlide>
-          <SwiperSlide>Slide 3</SwiperSlide>
-        </Swiper>
+        {appState > AppState.FeelingLucky && (
+          <Swiper effect="coverflow" direction="vertical" style={{ height: '100%' }}>
+            <SwiperSlide>Your Destination: {elevatorDestination}</SwiperSlide>
+          </Swiper>
+        )}
         {/*
         <div>The WebSocket is currently {connectionStatus}</div>
         {lastMessage ? <div>Last message: {lastMessage.data}</div> : null}
@@ -166,6 +200,16 @@ const HomePage = () => {
         </ul> */}
       </Block>
 
+      {appState == AppState.FeelingLucky && (
+        <Fab position="center-bottom" slot="fixed" text="Choose Action">
+          <Icon f7="bolt_fill"></Icon>
+          <Icon f7="bolt_horizontal_fill"></Icon>
+          <FabButtons position="top">
+            <FabButton label="Feeling Lucky" onClick={feelingLucky}></FabButton>
+            <FabButton label="Not Today" onClick={normalOperation}></FabButton>
+          </FabButtons>
+        </Fab>
+      )}
       {/*
     <List>
       <ListItem

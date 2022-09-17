@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getDevice } from 'framework7/lite-bundle'
 import { f7, f7ready, App, Panel, View, Page, Navbar, Block, BlockTitle, NavRight, Link, Button } from 'framework7-react'
 import { initializeApp } from 'firebase/app'
-import { getAuth, onAuthStateChanged, signInAnonymously } from '@firebase/auth'
+import { getAuth, onAuthStateChanged, signInAnonymously, signOut } from '@firebase/auth'
 import { getFirestore, enableIndexedDbPersistence, CACHE_SIZE_UNLIMITED, initializeFirestore } from 'firebase/firestore'
 import { ref, getDatabase, set } from 'firebase/database'
 import { useObject } from 'react-firebase-hooks/database'
@@ -172,6 +172,19 @@ const MyApp = () => {
               <Navbar title="Schindlerboard" />
               <Block>Right panel content goes here</Block>
               <Block>Version: 1.0.0</Block>
+              <Button
+                fill
+                onClick={() => {
+                  localStorage.removeItem('appState')
+                  signOut(auth).then(() => {
+                    f7.dialog.alert('Click ok to restart application', 'App was resetted', () => {
+                      location.reload()
+                    })
+                  })
+                }}
+              >
+                Reset App
+              </Button>
             </Page>
           </View>
         </Panel>

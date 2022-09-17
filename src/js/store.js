@@ -26,6 +26,11 @@ const store = createStore({
         description: 'Please remain calm while I will bring to your destination, Swoosh',
       },
       {
+        id: AppState.RandomiseDestination,
+        title: 'Your Schindler Elevator: ',
+        description: 'You felt lucky today. My fancy randomised calculation takes you to this new destination: ',
+      },
+      {
         id: AppState.WalkStairs,
         title: 'Your ride ends here prematurely ',
         description: 'Your destination was not quite reached yet, as the SchRrandomiser did not choose your destination. Head to the stairs!',

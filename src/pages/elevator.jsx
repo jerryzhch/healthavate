@@ -6,23 +6,40 @@ import ElevatorSVG from './elevatorsvg'
 const Elevator = (props) => {
   const prevState = useRef()
   useEffect(() => {
-    //assign the ref's current value to the count Hook
+    const leftDoor = f7.$('#door-left')
+    const rightDoor = f7.$('#door-right')
+    leftDoor?.removeAttr('class')
+    rightDoor?.removeAttr('class')
+
+    switch (props.appState) {
+      case AppState.ChooseDestination:
+        break
+      case AppState.GuessDoor:
+        break
+      case AppState.FeelingLucky:
+        leftDoor.addClass('door-left-open')
+        rightDoor.addClass('door-right-open')
+        leftDoor.addClass('door-left-stay-open')
+        rightDoor.addClass('door-right-stay-open')
+        break
+      case AppState.GoToDestination:
+        leftDoor.addClass('door-left-close')
+        rightDoor.addClass('door-right-close')
+        break
+      case AppState.RandomiseDestination:
+        break
+      case AppState.WalkStairs:
+        break
+      case AppState.ArrivedAtDestination:
+        leftDoor.addClass('door-left-open')
+        rightDoor.addClass('door-right-open')
+        break
+
+      default:
+        break
+    }
     prevState.current = props.appState
-  }) //run this code when the value of count changes
-  const leftDoor = f7.$('#door-left')
-  const rightDoor = f7.$('#door-right')
-  leftDoor?.removeAttr('class')
-  rightDoor?.removeAttr('class')
-  if (props.appState != AppState.FeelingLucky) {
-    console.log(props.appState)
-    leftDoor.addClass('door-left-close')
-    rightDoor.addClass('door-right-close')
-  } else {
-    leftDoor.addClass('door-left-open')
-    rightDoor.addClass('door-right-open')
-    leftDoor.addClass('door-left-stay-open')
-    rightDoor.addClass('door-right-stay-open')
-  }
+  })
   /*
   const toggleDoor = () => {
     console.log(closed)
