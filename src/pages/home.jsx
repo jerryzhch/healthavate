@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { Page, Navbar, NavLeft, NavTitle, NavRight, Link, Block, Button, Range, Segmented, Swiper, SwiperSlide } from 'framework7-react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
+import { Page, Navbar, NavLeft, NavTitle, NavRight, Link, Block, Button, Range, Segmented, Swiper, SwiperSlide, f7 } from 'framework7-react'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 import { ElevatorMatrix } from '../js/elevatorMatrix'
 import { AppState } from '../js/appState'
@@ -9,10 +9,11 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [socketUrl, setSocketUrl] = useState('wss://hack.myport.guide')
   const [messageHistory, setMessageHistory] = useState([])
-  const [activeButton, setActiveButton] = useState(ElevatorMatrix.ElevatorA)
-  const [appState, setAppState] = useState(AppState.ChooseDestination)
-
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl)
+  const [activeButton, setActiveButton] = useState(ElevatorMatrix.ElevatorA)
+  const [appState, setAppState] = useState(localStorage.getItem('appState') || AppState.ChooseDestination)
+  const [currentFloorLevel, setCurrentFloorLevel] = useState(0)
+
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastMessage))
@@ -48,8 +49,47 @@ const HomePage = () => {
     []
   )
 
+  const elevatorFloorSelected = (floor) => {
+    if (floor != currentFloorLevel) openActionsPopover(floor)
+  }
+
+  const setNewAppState = (newAppState) => {
+    localStorage.setItem('appState', newAppState)
+    setAppState(newAppState)
+  }
+
   const activateElevatorButton = (selectedElevator) => {
     setActiveButton(selectedElevator)
+  }
+
+  const openActionsPopover = (val) => {
+    const actionsToPopover = f7.actions.create({
+      buttons: [
+        {
+          text: 'Confirm Destination level: ' + val,
+          label: true,
+          bold: true,
+        },
+        {
+          text: 'Confirm',
+          bold: true,
+          color: 'green',
+          onClick: () => {
+            setNewAppState(AppState.GuessDoor)
+          },
+        },
+        {
+          text: 'Cancel',
+          color: 'red',
+          onClick: () => {
+            f7.range.get('.elevator-level-slider').setValue(currentFloorLevel)
+          },
+        },
+      ],
+      // Need to specify popover target
+      targetEl: '.elevator-level-slider',
+    })
+    actionsToPopover.open()
   }
 
   return (
@@ -67,17 +107,31 @@ const HomePage = () => {
       {/* Page content */}
       <Block style={{ margin: '0', height: '20%' }} className="display-flex" strong>
         {/*<img src={'../assets/images/speak-bubble.svg'} alt="speak-bubble-border" />*/}
-        <p className="speak-bubble">Welcome to Healthavate, a fun and interactive app to elevate the elevator experience (get it ;)?). Start by choosing your Destiantion Level.</p>
+        <p className="speak-bubble">{f7.store.state.bubbleText.find((el) => el.id == appState).description}</p>
         <img className="the-dude" src={'images/thedude.svg'} alt="TheDude" />
       </Block>
-      <Block className="display-flex justify-content-center align-items-center" style={{ height: '65%', margin: 0, gap: '20px', flexWrap: 'wrap' }}>
+      <Block className="display-flex justify-content-center align-items-center" style={{ height: '65%', margin: 0, gap: '10px' }}>
         {/*<Button className="findElevatorBtn" fill large preloader loading={isLoading} onClick={load} disabled={readyState !== ReadyState.OPEN}>
           Choose your destination level <i className="f7-icons">arrowtriangle_right</i>
           </Button>*/}
 
-        <Elevator />
+        <Elevator appState={appState} />
 
-        <Range className="" style={{ height: '60%', margin: 0 }} vertical={true} min={-1} max={10} label={true} step={1} value={1} scale={true} scaleSteps={11} scaleSubSteps={1} />
+        <Range
+          className="elevator-level-slider"
+          style={{ height: '80%', margin: 0, marginLeft: '11px' }}
+          vertical={true}
+          min={-1}
+          max={10}
+          label={true}
+          step={1}
+          disabled={appState != AppState.ChooseDestination}
+          value={currentFloorLevel}
+          scale={true}
+          onRangeChanged={(val) => elevatorFloorSelected(val)}
+          scaleSteps={11}
+          scaleSubSteps={1}
+        />
       </Block>
       <Block style={{ margin: '0', height: '20%' }} strong>
         <Segmented style={{ visibility: appState !== AppState.ChooseDestination ? 'hidden' : 'visible' }} strong tag="p">

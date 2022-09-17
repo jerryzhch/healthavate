@@ -5,5 +5,5 @@ export const AppState = {
   GoToDestination: 4,
   RandomiseDestination: 5,
   WalkStairs: 6,
-  
+  ArrivedAtDestination: 7,
 }
