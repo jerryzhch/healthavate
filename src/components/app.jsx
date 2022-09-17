@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getDevice } from 'framework7/lite-bundle'
-import { f7, f7ready, App, Panel, View, Page, Navbar, Block, BlockTitle } from 'framework7-react'
+import { f7, f7ready, App, Panel, View, Page, Navbar, Block, BlockTitle, NavRight, Link, Button } from 'framework7-react'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged, signInAnonymously } from '@firebase/auth'
 import { getFirestore, enableIndexedDbPersistence, CACHE_SIZE_UNLIMITED, initializeFirestore } from 'firebase/firestore'
+import { ref, getDatabase, set } from 'firebase/database'
+import { useObject } from 'react-firebase-hooks/database'
 
 import capacitorApp from '../js/capacitor-app'
 import routes from '../js/routes'
@@ -26,13 +28,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebase = initializeApp(firebaseConfig)
-export const db = initializeFirestore(firebase, {
+export const fireDb = initializeFirestore(firebase, {
   cacheSizeBytes: CACHE_SIZE_UNLIMITED,
 })
+const realDb = getDatabase(firebase)
 
 export const auth = getAuth(firebase)
 
-enableIndexedDbPersistence(db).catch((err) => {
+enableIndexedDbPersistence(fireDb).catch((err) => {
   if (err.code == 'failed-precondition') {
     // Multiple tabs open, persistence can only be enabled
     // in one tab at a a time.
@@ -47,6 +50,8 @@ enableIndexedDbPersistence(db).catch((err) => {
 const MyApp = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
+  const [username, loadingUsername, errorUsername] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/username`))
+  const [schats, loadingSchtats, errorSchtats] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/username`))
   // Login screen demo data
   const device = getDevice()
   // Framework7 Parameters
@@ -71,11 +76,7 @@ const MyApp = () => {
       androidOverlaysWebView: false,
     },
   }
-  const alertLoginData = () => {
-    f7.dialog.alert('Username: ' + username + '<br>Password: ' + password, () => {
-      f7.loginScreen.close()
-    })
-  }
+
   f7ready(() => {
     // Init capacitor APIs (see capacitor-app.js)
     if (f7.device.capacitor) {
@@ -104,15 +105,62 @@ const MyApp = () => {
     return () => {}
   }, [])
 
+  const writeUserNameToDb = (userInput) => {
+    set(ref(realDb, `users/${currentUser.uid}/username/`), userInput)
+      .then(() => {
+        f7.dialog.alert('Username was saved!')
+      })
+      .catch(() => {
+        f7.dialog.alert('Username could not be saved!')
+      })
+  }
+
+  const setUsername = () => {
+    f7.dialog.prompt('Edit your user name', 'Edit Username', (userInput) => writeUserNameToDb(userInput), undefined, username?.val()).open()
+  }
+
   return (
     userLoggedIn && (
       <App {...f7params}>
         {/* Left panel with cover effect*/}
         <Panel left reveal>
           <View>
-            <Page>
-              <Navbar title="My Score" />
-              <BlockTitle>Level 7: 103 Points</BlockTitle>
+            <Page style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+              <Navbar title="My Schtats" />
+
+              <Button
+                style={{
+                  backgroundImage: 'url(https://cdn.framework7.io/placeholder/people-100x100-9.jpg)',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
+                  borderRadius: '50%',
+                  width: '180px',
+                  height: '180px',
+                  margin: '10px',
+                  paddingLeft: '16px',
+                  paddingRight: '16px',
+                }}
+              ></Button>
+              <BlockTitle style={{ fontSize: '25px', height: '25px', margin: '20px' }}>
+                {(!loadingUsername && !errorUsername && username && username.val()) || 'No Username'}
+              </BlockTitle>
+              <Block>
+                <Button onClick={setUsername} fill>
+                  Edit UserName
+                </Button>
+              </Block>
+              <BlockTitle className="statsTitle">Elevatier</BlockTitle>
+              <Block>
+                <p>{(!loadingSchtats && !errorSchtats && schats && schats.val()?.elevatier) || 0}</p>
+              </Block>
+              <BlockTitle className="statsTitle">Points</BlockTitle>
+              <Block>
+                <p>{(!loadingSchtats && !errorSchtats && schats && schats.val()?.points) || 0}</p>
+              </Block>
+              <BlockTitle className="statsTitle">Ranking</BlockTitle>
+              <Block>
+                <p>{(!loadingSchtats && !errorSchtats && schats && schats.val()?.ranking) || 0}</p>
+              </Block>
             </Page>
           </View>
         </Panel>
@@ -121,7 +169,7 @@ const MyApp = () => {
         <Panel right reveal>
           <View>
             <Page>
-              <Navbar title="Right Panel" />
+              <Navbar title="Schindlerboard" />
               <Block>Right panel content goes here</Block>
             </Page>
           </View>
