@@ -171,6 +171,7 @@ const MyApp = () => {
             <Page>
               <Navbar title="Schindlerboard" />
               <Block>Right panel content goes here</Block>
+              <Block>Version: 1.0.0</Block>
             </Page>
           </View>
         </Panel>
