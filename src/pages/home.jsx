@@ -146,7 +146,7 @@ const HomePage = () => {
             }
         }
 
-        if (newAppState == 7) {
+        if (newAppState != 3) {
             f7.$("#indicator-up").addClass("indicator-off");
             f7.$("#indicator-down").addClass("indicator-off");
         }
