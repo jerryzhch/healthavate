@@ -5,10 +5,15 @@
   --f7-theme-color-shade: #b30000;
   --f7-theme-color-tint: #ff0606;
 }
+html {
+  overflow-y: hidden;
+}
+.homePage {
+}
 .findElevatorBtn {
   border-radius: 50%;
-  height: 90vw;
-  width: 90vw;
+  height: 80vw;
+  width: 80vw;
   text-transform: capitalize;
   font-size: 5vw;
 }
