@@ -113,7 +113,8 @@ const HomePage = () => {
         }
         let list = [];
         for (let i = lowEnd; i <= highEnd; i++) {
-            if (lowEnd == i && i > MIN_FLOOR) {
+            if (lowEnd ==
+                i && i > MIN_FLOOR) {
                 list.push(i - 1);
                 continue;
             }
@@ -202,7 +203,7 @@ const HomePage = () => {
                     disabled={appState != AppState.ChooseDestination}
                     value={currentFloorLevel}
                     scale={true}
-                    onRangeChanged={(val) => elevatorFloorSelected(val)}
+                    onRangeChanged={(val) => (appState != AppState.FeelingLucky)?elevatorFloorSelected(val):""}
                     scaleSteps={11}
                     scaleSubSteps={1}
                 />
