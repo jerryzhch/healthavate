@@ -49,7 +49,7 @@ const HomePage = () => {
     setActiveButton(selectedElevator)
   }
   return (
-    <Page name="home" className='homePage'>
+    <Page name="home" className="homePage">
       {/* Top Navbar */}
       <Navbar sliding={true}>
         <NavLeft>
@@ -68,7 +68,7 @@ const HomePage = () => {
         <Button className="findElevatorBtn" te fill preloader loading={isLoading} onClick={load} disabled={readyState !== ReadyState.OPEN}>
           Find Schindler Elevator
         </Button>
-        <Range className="" style={{ height: '60vh', margin: 0 }} vertical={true} min={-1} max={10} label={true} step={1} value={1} />
+        <Range className="" style={{ height: '60vh', margin: 0 }} vertical={true} min={-1} max={10} label={true} step={1} value={1} scale={true} scaleSteps={11} scaleSubSteps={1} />
       </Block>
       <Block style={{ margin: '0', height: '13vh' }} strong>
         <Segmented strong tag="p">

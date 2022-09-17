@@ -4,6 +4,8 @@
   --f7-theme-color-rgb: 220, 0, 0;
   --f7-theme-color-shade: #b30000;
   --f7-theme-color-tint: #ff0606;
+  --f7-range-scale-font-size: 17px;
+  --f7-range-bar-size: 12px;
 }
 html {
   overflow-y: hidden;
@@ -12,10 +14,12 @@ html {
 }
 .findElevatorBtn {
   border-radius: 50%;
-  height: 80vw;
-  width: 80vw;
+  height: 70%;
+  width: 80%;
+  margin: 2vw;
+  aspect-ratio: 1/1;
   text-transform: capitalize;
-  font-size: 5vw;
+  font-size: 1.5em;
 }
 .statsTitle {
   font-size: 20px;
