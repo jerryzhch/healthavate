@@ -1,13 +1,13 @@
 import { Button } from 'framework7-react';
-import React, { useEffect, createRef, useRef, useState } from 'react';
-import f7 from 'framework7-react';
+import React, { useRef, useState } from 'react';
+import ElevatorSVG from './elevatorsvg';
 
 const Elevator = () => {
 
   const elevatorsvg = useRef(null);
 
-  const doorRight =  elevatorsvg.current?.value;
-  const doorLeft = elevatorsvg.current?.value;
+  const doorRight =  document.getElementById("DoorRight");
+  const doorLeft = document.getElementById("DoorLeft");
 
   console.log(doorRight)
 
@@ -27,9 +27,6 @@ const Elevator = () => {
   const animateClose = (time, cb) => {
     if (previousTimeRef.current != undefined) {
       const deltaTime = time - previousTimeRef.current;
-      
-      // Pass on a function to the setter of the state
-      // to make sure we always have the latest state
 
       if( curXRight > 3.609 ){
         doorRight.setAttribute("transform", `matrix(${curXRight},0,0,4.48096,-3278.93,-2744.44)`);
@@ -46,16 +43,6 @@ const Elevator = () => {
         } else {
             setClosedLeft(true);
         }
-
-    /*
-    if(closedLeft && closedRight){
-        clearInterval(animationInterval);
-        animationInterval = null;
-    }
-    */
-
-
-
     }
     previousTimeRef.current = time;
     requestRef.current = requestAnimationFrame(animateClose);
@@ -64,10 +51,7 @@ const Elevator = () => {
   const animateOpen = (time, cb) => {
     if (previousTimeRef.current != undefined) {
       const deltaTime = time - previousTimeRef.current;
-      
-      // Pass on a function to the setter of the state
-      // to make sure we always have the latest state
-
+ 
       if(curXRight<3.76368){
         doorRight.setAttribute("transform", `matrix(${curXRight},0,0,4.48096,-3278.93,-2744.44)`);
         setCurXRight(curXRight  + moveLeftStep);
@@ -77,96 +61,16 @@ const Elevator = () => {
 
     
     if(curXLeft > 1.88184 ){
-
         doorLeft.setAttribute("transform", `matrix(${curXLeft},0,0,1.63938,-1083.06,-629.391)`);
-        //curXLeft = curXLeft - moveRightStep;
         setCurXLeft(curXLeft - moveRightStep);
     } else {
         setClosedLeft(false);
     }
-/*
-    if(!closedLeft && !closedRight){
-        clearInterval(animationInterval);
-        animationInterval  = null;
-    }*/
-
-
 
     }
     previousTimeRef.current = time;
     requestRef.current = requestAnimationFrame(animateClose);
   }
-
-/*
-  const animateClose = () => {
-                  
-      if(curXRight>3.609){
-          doorRight.setAttribute("transform", `matrix(${curXRight},0,0,4.48096,-3278.93,-2744.44)`);
-          curXRight = curXRight  - moveLeftStep;
-      } else {
-          closedRight = true;
-      }
-
-      
-      if(curXLeft < 2.009){
-
-          doorLeft.setAttribute("transform", `matrix(${curXLeft},0,0,1.63938,-1083.06,-629.391)`);
-          curXLeft = curXLeft + moveRightStep;
-      } else {
-          closedLeft = true;
-      }
-
-      if(closedLeft && closedRight){
-          clearInterval(animationInterval);
-          animationInterval = null;
-      }
-  }*/
-/*
-  const animateOpen = () => {
-              
-    if(curXRight<3.76368){
-        doorRight.setAttribute("transform", `matrix(${curXRight},0,0,4.48096,-3278.93,-2744.44)`);
-        curXRight = curXRight  + moveLeftStep;
-    } else {
-        closedRight = false;
-    }
-
-    
-    if(curXLeft > 1.88184 ){
-
-        doorLeft.setAttribute("transform", `matrix(${curXLeft},0,0,1.63938,-1083.06,-629.391)`);
-        curXLeft = curXLeft - moveRightStep;
-    } else {
-        closedLeft = false;
-    }
-
-    if(!closedLeft && !closedRight){
-        clearInterval(animationInterval);
-        animationInterval  = null;
-    }
-    }     */
-
-/*
-    const closeDoors = () => {
-      animationInterval = setInterval(()=>{ 
-        
-        // requestAnimationFrame( () => animateClose() ) }, 10);
-
-        useAnimationFrame( () => animateClose() )
-
-            }, 10      
-            )
-          }
-*/
-/*
-  const openDoors = () => {
-      animationInterval = setInterval(()=>{ 
-        
-        //requestAnimationFrame( () => animateOpen() ) 
-        useAnimationFrame( () => animateOpen() )
-
-      }, 10);
-  }*/
 
 
 
@@ -175,7 +79,7 @@ const Elevator = () => {
     <React.Fragment>
       <Button fill onClick={animateOpen}>open</Button>
       <Button fill onClick={animateClose}>close</Button>
-      <img ref={elevatorsvg} src={'../assets/images/elevator.svg'} alt="ElevatorSVG"/>
+      <ElevatorSVG/>
     </React.Fragment>
   );
 }
