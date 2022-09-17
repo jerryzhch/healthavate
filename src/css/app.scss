@@ -34,7 +34,7 @@ html {
 }
 /* Your app custom styles here */
 
-.the-dude{
+.the-dude {
   position: relative;
   right: 0;
   top: 10px;
@@ -42,17 +42,15 @@ html {
   width: auto;
 }
 
-.speak-bubble{
-  background-image: url('../assets/images/speak-bubble.svg');
+.speak-bubble {
+  background-image: url('../../public/images/speak-bubble.svg');
   background-repeat: no-repeat;
   background-size: cover;
   padding: 20px;
   width: 90%;
   justify-content: space-around;
   height: 80%;
-  
 }
-
 
 .door-right-open{
   animation: door-right-open var(--door-open-close-duration) ease-out;

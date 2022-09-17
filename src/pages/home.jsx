@@ -67,21 +67,15 @@ const HomePage = () => {
       {/* Page content */}
       <Block style={{ margin: '0', height: '20%' }} className="display-flex" strong>
         {/*<img src={'../assets/images/speak-bubble.svg'} alt="speak-bubble-border" />*/}
-        <p className="speak-bubble">
-          Welcome to Healthavate, a fun and interactive app to elevate the elevator experience (get it ;)?).
-          Start by choosing your Destiantion Level.
-          </p>
-        <img className="the-dude" src={'../assets/images/thedude.svg'} alt="TheDude" />
+        <p className="speak-bubble">Welcome to Healthavate, a fun and interactive app to elevate the elevator experience (get it ;)?). Start by choosing your Destiantion Level.</p>
+        <img className="the-dude" src={'images/thedude.svg'} alt="TheDude" />
       </Block>
       <Block className="display-flex justify-content-center align-items-center" style={{ height: '65%', margin: 0, gap: '20px', flexWrap: 'wrap' }}>
-        
         {/*<Button className="findElevatorBtn" fill large preloader loading={isLoading} onClick={load} disabled={readyState !== ReadyState.OPEN}>
           Choose your destination level <i className="f7-icons">arrowtriangle_right</i>
           </Button>*/}
 
-          <Elevator/>
-
-
+        <Elevator />
 
         <Range className="" style={{ height: '60%', margin: 0 }} vertical={true} min={-1} max={10} label={true} step={1} value={1} scale={true} scaleSteps={11} scaleSubSteps={1} />
       </Block>
