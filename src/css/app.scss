@@ -80,6 +80,13 @@ html {
   transform: matrix(6.3008, 0, 0, 4.48096, -7990, -2744.43);
 }
 
+.door-left-stay-closed{
+  transform: matrix(3.1504, 0, 0, 1.63938, -3801, -629.391);
+}
+.door-right-stay-closed{
+  transform: matrix(6.3008, 0, 0, 4.48096, -8481.66, -2744.43);
+}
+
 @keyframes door-right-open {
   0% {
     transform: matrix(6.3008, 0, 0, 4.48096, -8481.66, -2744.43);

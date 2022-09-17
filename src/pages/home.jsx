@@ -41,6 +41,13 @@ const HomePage = () => {
     }
   }, [lastMessage])
 
+  useEffect(() => {
+    console.dir(messageHistory)
+    if (lastMessage !== null) {
+      setMessageHistory((prev) => prev.concat(lastMessage))
+    }
+  }, [lastMessage, setMessageHistory])
+
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
     [ReadyState.OPEN]: 'Open',
@@ -49,6 +56,9 @@ const HomePage = () => {
     [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
   }[readyState]
 
+  const elevatorFloorSelected = (floor) => {
+    if (floor != currentFloorLevel) openActionsPopover('Confirm Destination level: ', floor, AppState.GuessDoor)
+  }
   const load = () => {
     handleClickSendMessage()
     if (isLoading) return
@@ -70,17 +80,9 @@ const HomePage = () => {
     []
   )
 
-  const elevatorFloorSelected = (floor) => {
-    if (floor != currentFloorLevel) openActionsPopover('Confirm Destination level: ', floor, AppState.GuessDoor)
-  }
-
-  const setNewAppState = (newAppState) => {
-    localStorage.setItem('appState', newAppState)
-    setAppState(newAppState)
-  }
-
   const activateElevatorButton = (selectedElevator) => {
     openActionsPopover('Confirm Schelevator selection: ', selectedElevator, AppState.FeelingLucky)
+    makeElevatorReservation()
     setActiveButton(selectedElevator)
   }
 
@@ -124,6 +126,35 @@ const HomePage = () => {
     f7.fab.close()
     setNewAppState(AppState.GoToDestination)
   }
+
+  const setNewAppState = (newAppState) => {
+    localStorage.setItem('appState', newAppState)
+    setAppState(newAppState)
+  }
+
+  const randomId = () => Math.random().toString(36).substring(2) || '0'
+
+  const makeElevatorReservation = useCallback(() => {
+    console.log('Make A Elevator Reservation')
+    sendMessage(
+      JSON.stringify({
+        Method: 'POST',
+        asyncId: randomId(),
+        'Request-URI': '/publish/',
+        'body-json': {
+          asyncId: `${randomId()}`,
+          options: {
+            destination: {
+              destinationFloor: -1,
+            },
+          },
+          target: {
+            floor: 0,
+          },
+        },
+      })
+    )
+  }, [])
 
   return (
     <Page name="home" className="homePage">
@@ -189,15 +220,7 @@ const HomePage = () => {
           <Swiper effect="coverflow" direction="vertical" style={{ height: '100%' }}>
             <SwiperSlide>Your Destination: {elevatorDestination}</SwiperSlide>
           </Swiper>
-        )}
-        {/*
-        <div>The WebSocket is currently {connectionStatus}</div>
-        {lastMessage ? <div>Last message: {lastMessage.data}</div> : null}
-        <ul>
-          {messageHistory.map((message, idx) => (
-            <div key={idx}>{message ? message.data : null}</div>
-          ))}
-        </ul> */}
+        )}  
       </Block>
 
       {appState == AppState.FeelingLucky && (

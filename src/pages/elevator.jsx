@@ -27,6 +27,8 @@ const Elevator = (props) => {
         rightDoor.addClass('door-right-close')
         break
       case AppState.RandomiseDestination:
+        leftDoor.addClass('door-left-close')
+        rightDoor.addClass('door-right-close')
         break
       case AppState.WalkStairs:
         break
