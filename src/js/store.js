@@ -7,11 +7,11 @@ const store = createStore({
       {
         id: AppState.ChooseDestination,
         title: 'Choose Your Destination Level',
-        description: 'Welcome to Healthavate, a fun and interactive app to elevate the elevator experience (get it ;)?). Start by choosing your Destiantion Level.',
+        description: 'Welcome to Healthavate, a fun and interactive app to elevate the elevator experience (get it ;)?). Start by choosing your Destination Level.',
       },
       {
         id: AppState.GuessDoor,
-        title: 'Guess Your assigned Schindler elevator!',
+        title: 'Guess Your assigned SchElevator!',
         description: 'As soon as you provided your guess, your assigned elevator will head to your pick up. Guess correctly to earn SchPoints',
       },
       {
@@ -23,12 +23,12 @@ const store = createStore({
       {
         id: AppState.GoToDestination,
         title: 'Your Schindler Elevator: ',
-        description: 'Please remain calm while I will bring to your destination',
+        description: 'Please remain calm while I will bring to your destination, Swoosh',
       },
       {
         id: AppState.WalkStairs,
-        title: 'Your ride ends hear prematurely ',
-        description: 'Your destination was not quite reached yet, as the Schindler randomiser did not choose your destination. Head to the stairs!',
+        title: 'Your ride ends here prematurely ',
+        description: 'Your destination was not quite reached yet, as the SchRrandomiser did not choose your destination. Head to the stairs!',
       },
       {
         id: AppState.WalkStairs,
