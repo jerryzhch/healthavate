@@ -5,5 +5,11 @@
   --f7-theme-color-shade: #b30000;
   --f7-theme-color-tint: #ff0606;
 }
-
+.findElevatorBtn {
+  border-radius: 50%;
+  height: 90vw;
+  width: 90vw;
+  text-transform: capitalize;
+  font-size: 5vw;
+}
 /* Your app custom styles here */
