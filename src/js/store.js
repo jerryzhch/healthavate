@@ -7,7 +7,7 @@ const store = createStore({
       {
         id: AppState.ChooseDestination,
         title: 'Choose Your Destination Level',
-        description: 'Welcome to Healthavate, a fun and interactive app to elevate the elevator experience (get it ;)?). Start by choosing your Destination Level.',
+        description: 'Welcome to Healthavate, a fun and interactive app to elevate the elevator experience (get it ;)?). I\'m the Dude. Let\'s start by choosing your Destination.',
       },
       {
         id: AppState.GuessDoor,
@@ -18,12 +18,12 @@ const store = createStore({
         id: AppState.FeelingLucky,
         title: 'Are You the born winner?!',
         description:
-          'If you feel like you got what it takes to beat the odds, press the "Feeling Lucky" Button. The elevator will then randomly select one floor between the start and finish. If your selected destination is drawn, you win. Otherwise you will have to take the stairs to complete your journey, which benefits your health anyway',
+          'If you feel like you got what it takes to beat the odds, press the "Feeling Lucky" Button. The elevator will then randomly select one floor between the start and finish. If your selected destination is drawn, you win. Otherwise you will have to take the stairs to complete your journey, which benefits your health anyway.',
       },
       {
         id: AppState.GoToDestination,
         title: 'Your Schindler Elevator: ',
-        description: 'Please remain calm while I will bring to your destination, Swoosh',
+        description: 'Please remain calm while I will bring you to your destination, Swoosh',
       },
       {
         id: AppState.RandomiseDestination,

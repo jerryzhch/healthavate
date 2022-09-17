@@ -8,9 +8,11 @@
   --f7-range-bar-size: 12px;
   --door-open-close-duration: 2s;
 }
+
 html {
   overflow-y: hidden;
 }
+
 .swiper-slide {
   background: #fff;
   display: flex;
@@ -21,6 +23,7 @@ html {
   box-sizing: border-box;
   border: 1px solid #ccc;
 }
+
 .findElevatorBtn {
   height: 20%;
   width: 80%;
@@ -29,33 +32,72 @@ html {
   text-transform: capitalize;
   font-size: 1.2em;
 }
+
 .statsTitle {
   font-size: 20px;
 }
+
+.actions-label {
+  font-size: 1.6em;
+}
+
 /* Your app custom styles here */
 
 .the-dude {
+  height: 85px;
   width: auto;
-  position: relative;
-  right: 0;
-  top: 10px;
-  height: 75px;
-  flex: 0 0 15vw;
+  position: fixed;
+  right: .7em;
+  top: 12em;
 }
 
 .speak-bubble {
-  background-image: url('../../public/images/speak-bubble.png');
-  background-repeat: no-repeat;
-  background-size: 85vw 100%;
-  padding-left: 20px;
-  padding-top: 15px;
-  padding-bottom: 10px;
-  padding-right: 10%;
+  padding: 0 60px 10px 5px;
   margin: 0;
+  text-align: justify;
+  overflow: auto;
   justify-content: space-around;
   flex: 1;
-  overflow: auto;
 }
+
+.speak-bubble-title {
+  padding: 0;
+  margin: 0;
+  font-size: 1.3em;
+}
+
+.speak-bubble-text {
+  font-size: .9em;
+}
+
+.segmented-buttons a{
+  font-size: 2em;
+}
+.end-swiper{
+  font-size: 2em;
+}
+
+.elevator-indicator{
+  position: fixed;
+  height: 100px;
+  width:100px;
+  top: 65%;
+  left: 50%;
+  text-align: center;
+  font-weight: 900;
+  transform: translate(-70px, -30px);
+  font-size: 7em;
+  line-height: 1em;
+  z-index: 1;
+  display:none;
+}
+
+/* Indicators */
+.indicator-off {
+  filter: grayscale(100%);
+}
+
+/* Door Animation */
 
 .door-right-open {
   animation: door-right-open var(--door-open-close-duration) ease-out;
@@ -76,14 +118,16 @@ html {
 .door-left-stay-open {
   transform: matrix(3.1504, 0, 0, 1.63938, -4300.02, -629.391);
 }
+
 .door-right-stay-open {
   transform: matrix(6.3008, 0, 0, 4.48096, -7990, -2744.43);
 }
 
-.door-left-stay-closed{
+.door-left-stay-closed {
   transform: matrix(3.1504, 0, 0, 1.63938, -3801, -629.391);
 }
-.door-right-stay-closed{
+
+.door-right-stay-closed {
   transform: matrix(6.3008, 0, 0, 4.48096, -8481.66, -2744.43);
 }
 
