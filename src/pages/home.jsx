@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
-import { Page, Navbar, NavLeft, NavTitle, NavRight, Link, Block, Button, Range, Segmented, Swiper, SwiperSlide, f7 } from 'framework7-react'
+import { Page, Navbar, NavLeft, NavTitle, NavRight, Link, Block, Button, Range, Segmented, Swiper, SwiperSlide, f7, App } from 'framework7-react'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 import { ElevatorMatrix } from '../js/elevatorMatrix'
 import { AppState } from '../js/appState'
@@ -50,7 +50,7 @@ const HomePage = () => {
   )
 
   const elevatorFloorSelected = (floor) => {
-    if (floor != currentFloorLevel) openActionsPopover(floor)
+    if (floor != currentFloorLevel) openActionsPopover('Confirm Destination level: ', floor, AppState.GuessDoor)
   }
 
   const setNewAppState = (newAppState) => {
@@ -59,14 +59,15 @@ const HomePage = () => {
   }
 
   const activateElevatorButton = (selectedElevator) => {
+    openActionsPopover("Confirm Schelevator selection: ", selectedElevator, AppState.FeelingLucky)
     setActiveButton(selectedElevator)
   }
 
-  const openActionsPopover = (val) => {
+  const openActionsPopover = (infoText, val, nextState) => {
     const actionsToPopover = f7.actions.create({
       buttons: [
         {
-          text: 'Confirm Destination level: ' + val,
+          text: infoText + val,
           label: true,
           bold: true,
         },
@@ -75,7 +76,7 @@ const HomePage = () => {
           bold: true,
           color: 'green',
           onClick: () => {
-            setNewAppState(AppState.GuessDoor)
+            setNewAppState(nextState)
           },
         },
         {
@@ -107,7 +108,7 @@ const HomePage = () => {
       {/* Page content */}
       <Block style={{ margin: '0', height: '20%' }} className="display-flex" strong>
         {/*<img src={'../assets/images/speak-bubble.svg'} alt="speak-bubble-border" />*/}
-        <p className="speak-bubble">{f7.store.state.bubbleText.find((el) => el.id == appState).description}</p>
+        <p className="speak-bubble">{f7.store.state.bubbleTexts.find((el) => el.id == appState).description}</p>
         <img className="the-dude" src={'images/thedude.svg'} alt="TheDude" />
       </Block>
       <Block className="display-flex justify-content-center align-items-center" style={{ height: '65%', margin: 0, gap: '10px' }}>
@@ -115,7 +116,7 @@ const HomePage = () => {
           Choose your destination level <i className="f7-icons">arrowtriangle_right</i>
           </Button>*/}
 
-        <Elevator appState={appState} />
+        <Elevator height={'80%'} appState={appState} />
 
         <Range
           className="elevator-level-slider"
@@ -134,20 +135,22 @@ const HomePage = () => {
         />
       </Block>
       <Block style={{ margin: '0', height: '20%' }} strong>
-        <Segmented style={{ visibility: appState !== AppState.ChooseDestination ? 'hidden' : 'visible' }} strong tag="p">
-          <Button large active={ElevatorMatrix.ElevatorA === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorA)}>
-            A
-          </Button>
-          <Button large active={ElevatorMatrix.ElevatorB === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorB)}>
-            B
-          </Button>
-          <Button large active={ElevatorMatrix.ElevatorC === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorC)}>
-            C
-          </Button>
-          <Button large active={ElevatorMatrix.ElevatorD === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorD)}>
-            D
-          </Button>
-        </Segmented>
+        {appState == AppState.GuessDoor && (
+          <Segmented strong tag="p">
+            <Button large active={ElevatorMatrix.ElevatorA === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorA)}>
+              A
+            </Button>
+            <Button large active={ElevatorMatrix.ElevatorB === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorB)}>
+              B
+            </Button>
+            <Button large active={ElevatorMatrix.ElevatorC === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorC)}>
+              C
+            </Button>
+            <Button large active={ElevatorMatrix.ElevatorD === activeButton} onClick={() => activateElevatorButton(ElevatorMatrix.ElevatorD)}>
+              D
+            </Button>
+          </Segmented>
+        )}
         <Swiper effect="coverflow" direction="vertical" style={{ height: '100%', display: appState === AppState.FeelingLucky ? 'block' : 'none' }} speed={500} pagination>
           <SwiperSlide>Slide 1</SwiperSlide>
           <SwiperSlide>Slide 2</SwiperSlide>

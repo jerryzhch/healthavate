@@ -3,7 +3,7 @@ import { AppState } from './appState'
 
 const store = createStore({
   state: {
-    bubbleText: [
+    bubbleTexts: [
       {
         id: AppState.ChooseDestination,
         title: 'Choose Your Destination Level',
@@ -39,12 +39,12 @@ const store = createStore({
   },
   getters: {
     products({ state }) {
-      return state.products
+      return state.bubbleTexts
     },
   },
   actions: {
-    addProduct({ state }, product) {
-      state.products = [...state.products, product]
+    addProduct({ state }, bubbleText) {
+      state.bubbleTexts = [...state.bubbleTexts, bubbleText]
     },
   },
 })

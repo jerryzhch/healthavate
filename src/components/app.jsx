@@ -46,12 +46,12 @@ enableIndexedDbPersistence(fireDb).catch((err) => {
     // ...
   }
 })
-
 const MyApp = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
-  const [username, loadingUsername, errorUsername] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/username`))
-  const [schats, loadingSchtats, errorSchtats] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/schtats`))
+  const { username, loadingUsername, errorUsername } = useUsernameState(currentUser)
+  const { schats, loadingSchtats, errorSchtats } = useSchatsState(currentUser)
+
   // Login screen demo data
   const device = getDevice()
   // Framework7 Parameters
@@ -134,8 +134,8 @@ const MyApp = () => {
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'cover',
                   borderRadius: '50%',
-                  width: '180px',
-                  height: '180px',
+                  width: '120px',
+                  height: '120px',
                   margin: '10px',
                   paddingLeft: '16px',
                   paddingRight: '16px',
@@ -183,3 +183,12 @@ const MyApp = () => {
   )
 }
 export default MyApp
+
+const useUsernameState = (currentUser) => {
+  const [username, loadingUsername, errorUsername] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/username`))
+  return { username, loadingUsername, errorUsername }
+}
+const useSchatsState = (currentUser) => {
+  const [schats, loadingSchtats, errorSchtats] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/schtats`))
+  return { schats, loadingSchtats, errorSchtats }
+}

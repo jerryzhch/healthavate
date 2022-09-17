@@ -35,43 +35,48 @@ html {
 /* Your app custom styles here */
 
 .the-dude {
+  width: auto;
   position: relative;
   right: 0;
   top: 10px;
   height: 75px;
-  width: auto;
+  flex: 0 0 15vw;
 }
 
 .speak-bubble {
-  background-image: url('../../public/images/speak-bubble.svg');
+  background-image: url('../../public/images/speak-bubble.png');
   background-repeat: no-repeat;
-  background-size: cover;
-  padding: 20px;
-  width: 90%;
+  background-size: 85vw 100%;
+  padding-left: 20px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  padding-right: 10%;
+  margin: 0;
   justify-content: space-around;
-  height: 80%;
+  flex: 1;
+  overflow: auto;
 }
 
-.door-right-open{
+.door-right-open {
   animation: door-right-open var(--door-open-close-duration) ease-out;
 }
 
-.door-left-open{
+.door-left-open {
   animation: door-left-open var(--door-open-close-duration) ease-out;
 }
 
-.door-right-close{
+.door-right-close {
   animation: door-right-close var(--door-open-close-duration) ease-out;
 }
 
-.door-left-close{
+.door-left-close {
   animation: door-left-close var(--door-open-close-duration) ease-out;
 }
 
-.door-left-stay-open{
+.door-left-stay-open {
   transform: matrix(3.1504, 0, 0, 1.63938, -4300.02, -629.391);
 }
-.door-right-stay-open{
+.door-right-stay-open {
   transform: matrix(6.3008, 0, 0, 4.48096, -7990, -2744.43);
 }
 
@@ -79,35 +84,34 @@ html {
   0% {
     transform: matrix(6.3008, 0, 0, 4.48096, -8481.66, -2744.43);
   }
-  100%{
+  100% {
     transform: matrix(6.3008, 0, 0, 4.48096, -7990, -2744.43);
-  } 
+  }
 }
 
 @keyframes door-left-open {
   0% {
     transform: matrix(3.1504, 0, 0, 1.63938, -3801.36, -629.391);
   }
-  100%{
+  100% {
     transform: matrix(3.1504, 0, 0, 1.63938, -4300.02, -629.391);
   }
-  
 }
 
 @keyframes door-right-close {
-  0%{
+  0% {
     transform: matrix(6.3008, 0, 0, 4.48096, -7990, -2744.43);
   }
   100% {
     transform: matrix(6.3008, 0, 0, 4.48096, -8481.66, -2744.43);
-  } 
+  }
 }
 
 @keyframes door-left-close {
-  0%{
+  0% {
     transform: matrix(3.1504, 0, 0, 1.63938, -4300.02, -629.391);
   }
   100% {
     transform: matrix(3.1504, 0, 0, 1.63938, -3801, -629.391);
-  }  
+  }
 }
