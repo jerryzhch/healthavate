@@ -32,3 +32,22 @@ html {
   font-size: 20px;
 }
 /* Your app custom styles here */
+
+.the-dude{
+  position: relative;
+  right: 0;
+  top: 10px;
+  height: 75px;
+  width: auto;
+}
+
+.speak-bubble{
+  background-image: url('../assets/images/speak-bubble.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 20px;
+  width: 90%;
+  justify-content: space-around;
+  height: 80%;
+  
+}
