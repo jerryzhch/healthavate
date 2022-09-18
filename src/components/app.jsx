@@ -176,6 +176,7 @@ const MyApp = () => {
               <Block>Version: 1.0.0</Block>
               <Button
                 fill
+                className={"reset-button"}
                 onClick={() => {
                   localStorage.removeItem('appState')
                   signOut(auth).then(() => {

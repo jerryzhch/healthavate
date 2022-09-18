@@ -13,6 +13,11 @@ html {
   overflow-y: hidden;
 }
 
+.reset-button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .swiper-slide {
   background: #fff;
   display: flex;
@@ -70,17 +75,18 @@ html {
   font-size: .9em;
 }
 
-.segmented-buttons a{
-  font-size: 2em;
-}
-.end-swiper{
+.segmented-buttons a {
   font-size: 2em;
 }
 
-.elevator-indicator{
+.end-swiper {
+  font-size: 2em;
+}
+
+.elevator-indicator {
   position: fixed;
   height: 100px;
-  width:100px;
+  width: 100px;
   top: 65%;
   left: 50%;
   text-align: center;
@@ -89,7 +95,7 @@ html {
   font-size: 7em;
   line-height: 1em;
   z-index: 1;
-  display:none;
+  display: none;
 }
 
 /* Indicators */
