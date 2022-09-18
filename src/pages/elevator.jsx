@@ -59,7 +59,7 @@ const Elevator = (props) => {
     return (
         <React.Fragment>
             <ElevatorSVG height={props.height}/>
-            <span id={"elevator-indicator"} className={"elevator-indicator"}>A</span>
+            <span id={"elevator-indicator"} className={"elevator-indicator"}>{props.assignedCar}</span>
         </React.Fragment>
     );
 };

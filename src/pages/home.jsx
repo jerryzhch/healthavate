@@ -206,7 +206,7 @@ const HomePage = () => {
           Choose your destination level <i className="f7-icons">arrowtriangle_right</i>
           </Button>*/}
 
-                <Elevator height={'80%'} appState={appState}/>
+                <Elevator height={'80%'} appState={appState} assignedCar={assignedCar}/>
 
                 <Range
                     className="elevator-level-slider"
