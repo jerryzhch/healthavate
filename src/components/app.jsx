@@ -5,7 +5,7 @@ import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged, signInAnonymously, signOut } from '@firebase/auth'
 import { getFirestore, enableIndexedDbPersistence, CACHE_SIZE_UNLIMITED, initializeFirestore } from 'firebase/firestore'
 import { ref, getDatabase, set, get, update, child } from 'firebase/database'
-import { useObject } from 'react-firebase-hooks/database'
+import { useObject, useObjectVal } from 'react-firebase-hooks/database'
 
 import capacitorApp from '../js/capacitor-app'
 import routes from '../js/routes'
@@ -34,7 +34,7 @@ export const fireDb = initializeFirestore(firebase, {
 const realDb = getDatabase(firebase)
 
 export const auth = getAuth(firebase)
-let globalCurrentUser = auth.currentUser
+export let globalCurrentUser = auth.currentUser
 
 enableIndexedDbPersistence(fireDb).catch((err) => {
   if (err.code == 'failed-precondition') {
@@ -210,12 +210,21 @@ const useSchatsState = (currentUser) => {
   const [schats, loadingSchtats, errorSchtats] = useObject(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/schtats`))
   return { schats, loadingSchtats, errorSchtats }
 }
+export const useFloorState = (currentUser) => {
+  const [floor, loadingFloor, errorFloor] = useObjectVal(currentUser == null ? null : ref(realDb, `users/${currentUser.uid}/floor`))
+  console.log(currentUser)
+  return { floor, loadingFloor, errorFloor }
+}
 
 export const storePoints = (points) => {
   const dbRef = ref(realDb, `users/${globalCurrentUser.uid}/schtats/`)
-  console.log(globalCurrentUser.uid)
   get(dbRef).then((snap) => {
     const prevPoints = snap.val()?.points ?? 0
     set(child(dbRef, 'points/'), prevPoints + points)
   })
+}
+
+export const storeCurrentFloor = (floor) => {
+  const dbRef = ref(realDb, `users/${globalCurrentUser.uid}/`)
+  set(child(dbRef, 'floor/'), floor)
 }

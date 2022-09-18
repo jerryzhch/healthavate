@@ -25,10 +25,12 @@ import { AppState } from '../js/appState'
 import Elevator from './elevator'
 import AssignedCarPopover from '@/components/AssignedCarPopover.jsx'
 import { storePoints } from '@/components/app.jsx'
+import { globalCurrentUser, storeCurrentFloor, useFloorState } from '../components/app'
 
 const HomePage = () => {
   const [socketUrl, setSocketUrl] = useState('wss://hack.myport.guide')
   const [messageHistory, setMessageHistory] = useState([])
+
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl)
   const [activeButton, setActiveButton] = useState(null)
   const [appState, setAppState] = useState(localStorage.getItem('appState') || AppState.ChooseDestination)
@@ -39,7 +41,7 @@ const HomePage = () => {
   const [assignedCar, setAssignedCar] = useState(null)
 
   useEffect(() => {
-    messageHistory.map((m) => console.log(JSON.parse(m.data)))
+    //messageHistory.map((m) => console.log(JSON.parse(m.data)))
     if (lastMessage !== null) {
       let lastMesageData = JSON.parse(lastMessage.data)
       if (lastMesageData.hasOwnProperty('data')) {
@@ -47,9 +49,30 @@ const HomePage = () => {
           setAssignedCar(lastMesageData.data.allocation.car.name)
         }
       }
+      if (lastMesageData.state == 'succeeded') {
+        console.log('in progressss')
+
+        if (appState == AppState.RandomiseDestination) {
+          setTimeout(() => {
+            setNewAppState(AppState.WalkStairs)
+          }, 2000)
+        }
+        if (appState == AppState.GoToDestination)
+          setTimeout(() => {
+            setNewAppState(AppState.ArrivedAtDestination)
+          }, 2000)
+        setCurrentFloorLevel(elevatorDestination)
+        storeCurrentFloor(elevatorDestination)
+      }
       setMessageHistory((prev) => prev.concat(lastMessage))
     }
-  }, [lastMessage, setMessageHistory, appState ])
+
+    if (appState >= AppState.WalkStairs)
+      setTimeout(() => {
+        setNewAppState(AppState.ChooseDestination)
+      }, 3000)
+    return clearTimeout()
+  }, [lastMessage, setMessageHistory, appState])
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
@@ -119,6 +142,8 @@ const HomePage = () => {
       highEnd = currentFloorLevel
       lowEnd = elevatorDestination
     }
+    console.log(highEnd)
+    console.log(lowEnd)
     let list = []
     for (let i = lowEnd; i <= highEnd; i++) {
       if (lowEnd == i && i > MIN_FLOOR) {

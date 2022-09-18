@@ -7,7 +7,7 @@ const store = createStore({
       {
         id: AppState.ChooseDestination,
         title: 'Choose Your Destination Level',
-        description: 'Welcome to SchElevate, a fun and interactive app to elevate the elevator experience (get it ;)?). I\'m the Dude. Let\'s start by choosing your Destination.',
+        description: "Welcome to SchElevate, a fun and interactive app to elevate the elevator experience (get it ;)?). I'm the Dude. Let's start by choosing your Destination.",
       },
       {
         id: AppState.GuessDoor,
@@ -36,7 +36,7 @@ const store = createStore({
         description: 'Your destination was not quite reached yet, as the SchRrandomiser did not choose your destination. Head to the stairs!',
       },
       {
-        id: AppState.WalkStairs,
+        id: AppState.ArrivedAtDestination,
         title: 'Your ride ends here ',
         description: 'You have arrived your desired destination. Thanks for using SchElevate!',
       },

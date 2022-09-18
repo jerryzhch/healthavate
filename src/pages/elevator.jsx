@@ -6,16 +6,16 @@ import ElevatorSVG from './elevatorsvg'
 const Elevator = (props) => {
   const [appState, setAppState] = useState(props.appState)
   const prevState = useRef()
-  console.log(appState)
+  console.log(props.appState)
   useEffect(() => {
     const leftDoor = f7.$('#door-left')
     const rightDoor = f7.$('#door-right')
+    leftDoor.removeAttr('class')
+    rightDoor.removeAttr('class')
     const elevatorIndicator = document.getElementById('elevator-indicator')
 
-    switch (appState.toString()) {
+    switch (props.appState.toString()) {
       case AppState.ChooseDestination.toString():
-        leftDoor?.removeAttr('class')
-        rightDoor?.removeAttr('class')
         break
       case AppState.GuessDoor.toString():
         break
