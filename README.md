@@ -1,16 +1,17 @@
-# Healthavate
+# SchElevator (Working Title: Healthavate)
+
+Find the Application here: https://hackzurich22-4062.web.app/
 
 ## Framework7 CLI Options
 
 Framework7 app created with following options:
 
-```
+```json
 {
-  "cwd": "C:\\Users\\jerry\\Documents\\GitHub\\healthavate",
   "type": [
     "capacitor"
   ],
-  "name": "Healthavate",
+  "name": "SchElevator",
   "framework": "react",
   "template": "single-view",
   "bundler": "vite",
