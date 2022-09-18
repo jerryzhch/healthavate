@@ -176,9 +176,11 @@ const MyApp = () => {
               <Block>Version: 1.0.0</Block>
               <Button
                 fill
-                className={"reset-button"}
+                className={'reset-button'}
                 onClick={() => {
                   localStorage.removeItem('appState')
+                  localStorage.removeItem('rangeSliderValue')
+                  localStorage.removeItem('elevatorDestination')
                   signOut(auth).then(() => {
                     f7.dialog.alert('Click ok to restart application', 'App was resetted', () => {
                       location.reload()

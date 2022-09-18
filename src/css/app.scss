@@ -47,13 +47,18 @@ html {
 }
 
 /* Your app custom styles here */
-
+.header-block {
+  margin: 0;
+  height: 20%;
+  overflow: auto;
+}
 .the-dude {
   height: 85px;
   width: auto;
   position: fixed;
-  right: .7em;
-  top: 12em;
+  right: 0.7em;
+  top: 8em;
+  z-index: 1000;
 }
 
 .speak-bubble {
@@ -69,10 +74,11 @@ html {
   padding: 0;
   margin: 0;
   font-size: 1.3em;
+  text-align: left;
 }
 
 .speak-bubble-text {
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
 .segmented-buttons a {
