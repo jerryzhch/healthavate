@@ -56,10 +56,10 @@ const MyApp = () => {
   const device = getDevice()
   // Framework7 Parameters
   const f7params = {
-    name: 'Healthavate', // App name
+    name: 'SchElevate', // App name
     theme: 'ios', // Automatic theme detection
 
-    id: 'io.framework7.healthavate', // App bundle ID
+    id: 'io.framework7.SchElevate', // App bundle ID
     // App store
     store: store,
     // App routes

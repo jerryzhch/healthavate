@@ -7,7 +7,7 @@ const store = createStore({
       {
         id: AppState.ChooseDestination,
         title: 'Choose Your Destination Level',
-        description: 'Welcome to Healthavate, a fun and interactive app to elevate the elevator experience (get it ;)?). I\'m the Dude. Let\'s start by choosing your Destination.',
+        description: 'Welcome to SchElevate, a fun and interactive app to elevate the elevator experience (get it ;)?). I\'m the Dude. Let\'s start by choosing your Destination.',
       },
       {
         id: AppState.GuessDoor,
@@ -22,12 +22,12 @@ const store = createStore({
       },
       {
         id: AppState.GoToDestination,
-        title: 'Your Schindler Elevator: ',
+        title: 'Your SchElevator: ',
         description: 'Please remain calm while I will bring you to your destination, Swoosh',
       },
       {
         id: AppState.RandomiseDestination,
-        title: 'Your Schindler Elevator: ',
+        title: 'Your SchElevator: ',
         description: 'You felt lucky today. My fancy randomised calculation takes you to this new destination: ',
       },
       {
@@ -38,7 +38,7 @@ const store = createStore({
       {
         id: AppState.WalkStairs,
         title: 'Your ride ends here ',
-        description: 'You have arrived your desired destination. Thanks for using Healthavate!',
+        description: 'You have arrived your desired destination. Thanks for using SchElevate!',
       },
     ],
   },
